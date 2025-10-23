@@ -4,49 +4,36 @@
       <stop offset="0%" style="stop-color:#1e3c72;stop-opacity:1" />
       <stop offset="100%" style="stop-color:#2a5298;stop-opacity:1" />
     </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-opacity="0.3"/>
+    </filter>
   </defs>
   <rect width="512" height="512" fill="url(#grad)" rx="80"/>
-  <g transform="translate(96, 140)">
-    <!-- W -->
-    <rect x="0" y="0" width="60" height="60" fill="#6aaa64" rx="5"/>
-    <text x="30" y="45" font-family="Arial, sans-serif" font-size="40" font-weight="bold" fill="white" text-anchor="middle">W</text>
 
-    <!-- O -->
-    <rect x="70" y="0" width="60" height="60" fill="#c9b458" rx="5"/>
-    <text x="100" y="45" font-family="Arial, sans-serif" font-size="40" font-weight="bold" fill="white" text-anchor="middle">O</text>
+  <!-- Stylized W6 Logo -->
+  <g transform="translate(256, 256)" filter="url(#shadow)">
+    <!-- W - Bold, modern style -->
+    <text x="-80" y="50"
+          font-family="'Arial Black', Arial, sans-serif"
+          font-size="180"
+          font-weight="900"
+          fill="#ffffff"
+          text-anchor="middle"
+          style="letter-spacing: -10px;">W</text>
 
-    <!-- R -->
-    <rect x="140" y="0" width="60" height="60" fill="#6aaa64" rx="5"/>
-    <text x="170" y="45" font-family="Arial, sans-serif" font-size="40" font-weight="bold" fill="white" text-anchor="middle">R</text>
-
-    <!-- D -->
-    <rect x="210" y="0" width="60" height="60" fill="#787c7e" rx="5"/>
-    <text x="240" y="45" font-family="Arial, sans-serif" font-size="40" font-weight="bold" fill="white" text-anchor="middle">D</text>
-
-    <!-- L -->
-    <rect x="280" y="0" width="60" height="60" fill="#c9b458" rx="5"/>
-    <text x="310" y="45" font-family="Arial, sans-serif" font-size="40" font-weight="bold" fill="white" text-anchor="middle">L</text>
-
-    <!-- E -->
-    <rect x="0" y="70" width="60" height="60" fill="#6aaa64" rx="5"/>
-    <text x="30" y="115" font-family="Arial, sans-serif" font-size="40" font-weight="bold" fill="white" text-anchor="middle">E</text>
-
-    <!-- (space) -->
-    <rect x="70" y="70" width="60" height="60" fill="rgba(255,255,255,0.2)" rx="5"/>
-
-    <!-- S -->
-    <rect x="140" y="70" width="60" height="60" fill="#6aaa64" rx="5"/>
-    <text x="170" y="115" font-family="Arial, sans-serif" font-size="40" font-weight="bold" fill="white" text-anchor="middle">S</text>
-
-    <!-- I -->
-    <rect x="210" y="70" width="60" height="60" fill="#c9b458" rx="5"/>
-    <text x="240" y="115" font-family="Arial, sans-serif" font-size="40" font-weight="bold" fill="white" text-anchor="middle">I</text>
-
-    <!-- X -->
-    <rect x="280" y="70" width="60" height="60" fill="#6aaa64" rx="5"/>
-    <text x="310" y="115" font-family="Arial, sans-serif" font-size="40" font-weight="bold" fill="white" text-anchor="middle">X</text>
+    <!-- 6 - Matching bold style -->
+    <text x="60" y="50"
+          font-family="'Arial Black', Arial, sans-serif"
+          font-size="180"
+          font-weight="900"
+          fill="#6aaa64"
+          text-anchor="middle">6</text>
   </g>
 
-  <!-- Game controller emoji styling -->
-  <text x="256" y="360" font-size="80" text-anchor="middle">🎮</text>
+  <!-- Decorative accent - small tiles under the logo -->
+  <g transform="translate(186, 350)">
+    <rect x="0" y="0" width="30" height="30" fill="#6aaa64" rx="4"/>
+    <rect x="40" y="0" width="30" height="30" fill="#c9b458" rx="4"/>
+    <rect x="80" y="0" width="30" height="30" fill="#6aaa64" rx="4"/>
+  </g>
 </svg>
