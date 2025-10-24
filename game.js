@@ -161,11 +161,16 @@ async function submitGuess() {
 
     const result = checkGuess(guess);
 
-    // Animate tiles
+    // FIX: Save the current row before it gets incremented
+    const winningRow = currentRow;
+
+    // Animate tiles - FIX: Preserve text content during animation
     for (let i = 0; i < WORD_LENGTH; i++) {
         const tile = document.getElementById(`tile-${currentRow}-${i}`);
         setTimeout(() => {
             tile.className = `tile ${result[i]}`;
+            // Ensure text stays visible
+            tile.textContent = guess[i];
         }, i * 200);
     }
 
@@ -174,17 +179,19 @@ async function submitGuess() {
         updateKeyboard(guess, result);
     }, WORD_LENGTH * 200);
 
-    // Check win/lose
+    // Check win/lose - FIX: Use saved winningRow instead of currentRow
     if (guess === targetWord) {
         setTimeout(() => {
             gameOver = true;
             gameState.gameOver = true;
             gameState.won = true;
             saveGameState();
-            updateStats(true, currentRow + 1);
+            updateStats(true, winningRow + 1); // FIX: Use winningRow
             showMessage('🎉 Congratulations!');
-            bounceRow();
+            bounceRow(winningRow); // FIX: Use winningRow
             showShareButton();
+            // NEW: Show win modal
+            showWinModal(winningRow + 1);
         }, WORD_LENGTH * 200 + 500);
     } else if (currentRow === MAX_GUESSES - 1) {
         setTimeout(() => {
@@ -281,8 +288,9 @@ function shakeRow() {
     setTimeout(() => row.classList.remove('shake'), 500);
 }
 
-function bounceRow() {
-    const row = document.querySelector(`[data-row="${currentRow}"]`);
+function bounceRow(rowIndex) {
+    // FIX: Accept rowIndex parameter instead of using currentRow
+    const row = document.querySelector(`[data-row="${rowIndex}"]`);
     row.classList.add('bounce');
     setTimeout(() => row.classList.remove('bounce'), 600);
 }
@@ -296,6 +304,16 @@ function showMessage(msg) {
             if (messageEl.innerHTML === msg) messageEl.innerHTML = '';
         }, 3000);
     }
+}
+
+// NEW: Show win modal
+function showWinModal(guessCount) {
+    const modal = document.getElementById('winModal');
+    const guessText = document.getElementById('winGuessCount');
+    guessText.textContent = guessCount;
+    setTimeout(() => {
+        modal.classList.add('show');
+    }, 1000); // Show after 1 second
 }
 
 // Stats management
@@ -398,6 +416,7 @@ function showShareButton() {
     document.getElementById('shareSection').style.display = 'block';
 }
 
+// FIX: Improved share function with better error handling
 function shareResults() {
     if (!gameState || !gameState.gameOver) return;
 
@@ -413,12 +432,50 @@ function shareResults() {
 
     const text = `Wordle Six ${guessCount}/${MAX_GUESSES}\n\n${emoji}\n\nhttps://wordle-six.tomtom.fyi`;
 
+    // Try native share first
     if (navigator.share) {
-        navigator.share({ text });
+        navigator.share({ text })
+            .then(() => showMessage('Shared successfully!'))
+            .catch(err => {
+                // User cancelled or error - try clipboard
+                copyToClipboard(text);
+            });
     } else {
-        navigator.clipboard.writeText(text);
-        showMessage('Copied to clipboard!');
+        // Fallback to clipboard
+        copyToClipboard(text);
     }
+}
+
+// FIX: Better clipboard handling
+function copyToClipboard(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text)
+            .then(() => showMessage('✓ Copied to clipboard!'))
+            .catch(err => {
+                console.error('Clipboard error:', err);
+                // Last resort: create textarea
+                fallbackCopy(text);
+            });
+    } else {
+        fallbackCopy(text);
+    }
+}
+
+// FIX: Fallback copy method
+function fallbackCopy(text) {
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.select();
+    try {
+        document.execCommand('copy');
+        showMessage('✓ Copied to clipboard!');
+    } catch (err) {
+        showMessage('❌ Copy failed - please share manually');
+    }
+    document.body.removeChild(textarea);
 }
 
 // Modal functions

@@ -124,6 +124,7 @@
             border-radius: 0.25rem;
             transition: all 0.15s;
             user-select: none;
+            color: var(--text-primary);
         }
 
         .tile.filled {
@@ -135,18 +136,21 @@
             background: var(--correct);
             border-color: var(--correct);
             animation: flip 0.5s;
+            color: white;
         }
 
         .tile.present {
             background: var(--present);
             border-color: var(--present);
             animation: flip 0.5s;
+            color: white;
         }
 
         .tile.absent {
             background: var(--absent);
             border-color: var(--absent);
             animation: flip 0.5s;
+            color: white;
         }
 
         @keyframes flip {
@@ -394,6 +398,28 @@
             font-size: 1.2rem;
         }
 
+        /* Win Modal Styles */
+        .win-modal-content {
+            text-align: center;
+        }
+
+        .win-emoji {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .win-message {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .win-subtext {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
         @media (max-width: 480px) {
             :root {
                 --tile-size: 3rem;
@@ -481,6 +507,17 @@
         </div>
 
         <div class="message" id="message"></div>
+    </div>
+
+    <!-- Win Modal -->
+    <div class="modal" id="winModal">
+        <div class="modal-content win-modal-content">
+            <div class="win-emoji">🎉</div>
+            <div class="win-message">Congratulations!</div>
+            <div class="win-subtext">You solved it in <span id="winGuessCount">-</span> guesses!</div>
+            <button class="share-btn" onclick="shareResults(); closeModal('winModal');">Share Results 📋</button>
+            <button class="share-btn" onclick="closeModal('winModal'); showStats();" style="margin-top: 1rem; background: rgba(255,255,255,0.2);">View Stats</button>
+        </div>
     </div>
 
     <!-- Stats Modal -->
